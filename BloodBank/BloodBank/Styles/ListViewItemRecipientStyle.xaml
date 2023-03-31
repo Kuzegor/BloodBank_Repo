@@ -1,0 +1,105 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style TargetType="ListViewItem" x:Key="ListViewItemRecipientStyle">
+        <Style.Setters>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="{DynamicResource MyDarkBrush}"/>
+            <Setter Property="Foreground" Value="GhostWhite"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                        <Border Background="{TemplateBinding Background}" 
+                                Width="480"
+                                Height="120"
+                                CornerRadius="6"
+                                Margin="10,10,0,0">
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <Border CornerRadius="4" Grid.RowSpan="2" Margin="10" Width="165" Background="White">
+                                    <Image Width="165">
+                                        <Image.Source>
+                                            <BitmapImage DecodePixelWidth="300"
+                                                         UriSource="{Binding PhotoUri}" 
+                                                         CacheOption="OnLoad"
+                                                         >
+                                            </BitmapImage>
+                                        </Image.Source>
+                                    </Image>
+                                </Border>
+
+                                <!--<Border CornerRadius="4" Grid.RowSpan="2" Margin="10" Width="165" Background="White">
+                                    <Image Width="165">
+                                        <Image.Source>
+                                            <PriorityBinding>
+                                                --><!-- это свойство главнее, поэтому оно первое
+                                                поскольку загрузка медленная, грузим в фоновом потоке (IsAsync) --><!--
+                                                <Binding IsAsync="True" Path="LazyLoadedImage"/>
+                                                --><!-- а это заглушка по умолчанию, будет показываться,
+                                                пока не загрузится главная картинка --><!--
+                                                <Binding Source="\Images\blood_logo.jpg"/>
+                                            </PriorityBinding>
+                                        </Image.Source>
+                                    </Image>
+                                </Border>-->
+
+                                <TextBlock Text="{Binding Name}" 
+                                           FontSize="18"
+                                           Margin="0,10,10,0"
+                                           FontWeight="SemiBold"
+                                           Grid.Column="1"
+                                           HorizontalAlignment="Left"
+                                           Height="30"
+                                           TextWrapping="Wrap"/>
+
+                                <StackPanel Orientation="Vertical"
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            Margin="0,0,10,10"
+                                            >
+
+                                    <TextBlock Text="{Binding BloodGroupModel.Name}"
+                                           Margin="0,0,0,0" 
+                                           MaxWidth="295" MaxHeight="65"
+                                           TextWrapping="Wrap"
+                                               FontSize="12"/>
+
+                                    <TextBlock Text="{Binding Phone}" 
+                                           Margin="0,0,0,0"                                          
+                                           TextWrapping="Wrap"
+                                               FontSize="12"/>
+
+                                    <TextBlock Text="{Binding Email}" 
+                                           Margin="0,0,0,0"                                          
+                                           TextWrapping="Wrap"
+                                               FontSize="12"/>
+                                </StackPanel>
+                            </Grid>
+
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource MyMediumBrush}"/>
+                <Setter Property="IsSelected" Value="True"/>
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{DynamicResource MyMediumBrush}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+</ResourceDictionary>

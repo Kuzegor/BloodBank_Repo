@@ -1,0 +1,29 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <Style TargetType="TextBox" x:Key="PageTextBoxStyle">
+        <Style.Setters>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{DynamicResource MyDarkBrush}"
+                                CornerRadius="2"
+                                Height="22"
+                                MinWidth="22"
+                                MaxWidth="200">
+                            <TextBox Background="Transparent"
+                                         BorderThickness="0"
+                                         x:Name="SearchBoxTextBox"
+                                         Foreground="White"
+                                         Margin="0,0,0,0"
+                                         VerticalAlignment="Center"
+                                     HorizontalAlignment="Center"
+                                     FontSize="14"
+                                         Text="{Binding CurrentPageNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>
+</ResourceDictionary>

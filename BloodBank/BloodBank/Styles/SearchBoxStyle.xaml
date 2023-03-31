@@ -1,0 +1,47 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style TargetType="TextBox" x:Key="SearchBoxStyle">
+        <Style.Setters>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{DynamicResource MyDarkBrush}"
+                                CornerRadius="4"
+                                Height="40">
+                            <Grid>
+
+                                <TextBox Background="Transparent"
+                                         BorderThickness="0"
+                                         VerticalAlignment="Center"
+                                         x:Name="SearchBoxTextBox"
+                                         Foreground="GhostWhite"
+                                         Margin="10,0,0,0"
+                                         FontSize="14"
+                                        Text="{Binding SearchBoxText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                <TextBlock Text="Введите текст для поиска..." 
+                                           Foreground="White"
+                                           Background="Transparent"
+                                           VerticalAlignment="Center"
+                                           Margin="10,0,0,0"
+                                           Style="{DynamicResource SearchText}"
+                                           IsHitTestVisible="False"
+                                           FontSize="14"/>
+
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="SearchText">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Text, ElementName=SearchBoxTextBox}" Value="">
+                <Setter Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+        </Style.Triggers>
+        <Setter Property="Visibility" Value="Hidden"/>
+    </Style>
+</ResourceDictionary>

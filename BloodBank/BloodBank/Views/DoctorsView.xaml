@@ -1,0 +1,143 @@
+﻿<UserControl x:Class="BloodBank.Views.DoctorsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BloodBank.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="420" d:DesignWidth="658">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition MinHeight="50" MaxHeight="90"/>
+            <RowDefinition MinHeight="320"/>
+            <RowDefinition MinHeight="50" MaxHeight="90"/>
+        </Grid.RowDefinitions>
+
+        <Image Source="\Images\blood_logo.jpg" Margin="10"/>
+
+        <StackPanel Grid.Column="1"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+            <TextBox Width="380" 
+                     Style="{StaticResource SearchBoxStyle}"
+                     >
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Enter" Command="{Binding SearchCommand}"/>
+                </TextBox.InputBindings>
+            </TextBox>
+            <Button    Style="{StaticResource AddButtonStyle}"
+                        Content="Добавить"
+                            HorizontalContentAlignment="Center"
+                       Command="{Binding OpenCreateViewCommand}" />
+        </StackPanel>
+
+
+        <ListBox Grid.Row="1"
+                 Background="Transparent"
+                 Foreground="{StaticResource MyDarkBrush}"
+                 Margin="0,0,0,0"
+                 ItemsSource="{Binding Roles}"
+                 SelectedItem="{Binding SelectedRole, Mode=TwoWay}"
+                 VerticalAlignment="Stretch"
+                 BorderBrush="{StaticResource MyDarkBrush}"
+                 BorderThickness=".5"/>
+
+        <ListView Grid.Row="1" Grid.Column="1"
+                  ItemsSource="{Binding CurrentPage}"
+                  VerticalAlignment="Stretch"
+                  Style="{StaticResource CellsListViewStyle}"
+                  SelectedItem="{Binding SelectedEntity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  BorderBrush="{StaticResource MyDarkBrush}"
+                  BorderThickness=".5">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItemDoctorStyle}">
+                    <EventSetter Event="MouseEnter" Handler="ListViewItem_MouseEnter"/>
+                    <EventSetter Event="MouseLeave" Handler="ListViewItem_MouseLeave"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+
+        <Popup x:Name="ButtonsMenuPopup"
+               HorizontalOffset="490"
+               VerticalOffset="-117"
+               >
+            <Popup.Style>
+                <Style TargetType="Popup">
+                    <EventSetter Event="MouseLeave" Handler="Popup_MouseLeave"/>
+                </Style>
+            </Popup.Style>
+            <Border Style="{StaticResource PopupBorderStyle}">
+                <StackPanel Orientation="Vertical">
+                    <Button Command="{Binding OpenEditViewCommand}" 
+                        Style="{StaticResource MenuButtonStyle}"
+                        Content="Подробности/Изменить"
+                            HorizontalContentAlignment="Center"
+                            FontSize="14"/>
+                    <Button Command="{Binding OpenDeleteViewCommand}" 
+                        Style="{StaticResource MenuButtonStyle}"
+                        Content="Удалить"
+                            HorizontalContentAlignment="Center"
+                            FontSize="14"/>
+                </StackPanel>
+
+            </Border>
+        </Popup>
+
+        <StackPanel Grid.Row="3" Grid.Column="1"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Left"
+                    Margin="30,0,0,0"
+                    VerticalAlignment="Center">
+
+            <TextBlock Text="Предметов на странице:"
+                       Foreground="{StaticResource MyDarkBrush}"
+                       FontSize="14"
+                       Margin="0,0,0,0"
+                       VerticalAlignment="Center"/>
+
+            <ComboBox ItemContainerStyle="{DynamicResource ComboBoxItemContainerStyle}" 
+                      Margin="10,0,0,0"
+                      FontSize="14"
+                      VerticalAlignment="Center"
+                      ItemsSource="{Binding ItemsPerPage}"
+                      SelectedItem="{Binding SelectedItemsPerPage, Mode=TwoWay}"
+                      Style="{StaticResource ComboBoxStyle}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Grid.Column="1"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Margin="0,0,30,0"
+                    VerticalAlignment="Center"
+                    >
+            <Button Command="{Binding GoToFirstPage}" Cursor="Hand"
+                    Style="{StaticResource PageButtonStyle}">
+                <TextBlock Text="≪" Margin="0,0,0,2"/>
+            </Button>
+            <Button Command="{Binding GoToPreviousPage}" Cursor="Hand"
+                    Style="{StaticResource PageButtonStyle}">
+                <TextBlock Text="&lt;" Margin="0,0,0,2"/>
+            </Button>
+
+            <TextBox Style="{StaticResource PageTextBoxStyle}" Margin="0,0,5,0">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Enter" Command="{Binding GoToSpecificPageCommand}"/>
+                </TextBox.InputBindings>
+            </TextBox>
+
+            <Button Command="{Binding GoToNextPage}" Cursor="Hand"
+                    Style="{StaticResource PageButtonStyle}">
+                <TextBlock Text="&gt;" Margin="0,0,0,2"/>
+            </Button>
+            <Button Command="{Binding GoToLastPage}" Cursor="Hand"
+                    Style="{StaticResource PageButtonStyle}">
+                <TextBlock Text="≫" Margin="0,0,0,2"/>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

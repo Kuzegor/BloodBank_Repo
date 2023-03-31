@@ -1,0 +1,118 @@
+﻿<Application x:Class="BloodBank.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:BloodBank"
+             xmlns:viewmodels="clr-namespace:BloodBank.ViewModels"
+             xmlns:views="clr-namespace:BloodBank.Views"
+             xmlns:converters="clr-namespace:BloodBank.Converters"
+             StartupUri="Views/MainWindowView.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            
+            <!--Styles-->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/MainWindowButtonStyle.xaml"/>
+                <ResourceDictionary Source="Styles/MenuBorderStyle.xaml"/>
+                <ResourceDictionary Source="Styles/MenuRadioButtonStyle.xaml"/>
+                <ResourceDictionary Source="Styles/FormButtonStyle.xaml"/>
+                <ResourceDictionary Source="Styles/MenuButtonStyle.xaml"/>
+                <ResourceDictionary Source="Styles/SearchBoxStyle.xaml"/>
+                <ResourceDictionary Source="Styles/ListViewStyle.xaml"/>
+                <ResourceDictionary Source="Styles/ComboBoxStyle.xaml"/>
+                <ResourceDictionary Source="Styles/FormComboBoxStyle.xaml"/>
+                <ResourceDictionary Source="Styles/PageTextBoxStyle.xaml"/>
+                <ResourceDictionary Source="Styles/ListBoxStyle.xaml"/>
+                <ResourceDictionary Source="Styles/ScrollViewerStyle.xaml"/>
+                <ResourceDictionary Source="Styles/ListViewItemDoctorStyle.xaml"/>
+                <ResourceDictionary Source="Styles/ListViewItemRecipientStyle.xaml"/>
+                <ResourceDictionary Source="Styles/PageButtonStyle.xaml"/>
+                <ResourceDictionary Source="Styles/PopupBorderStyle.xaml"/>
+                <ResourceDictionary Source="Styles/AddButtonStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+
+            <!--Converters-->
+            <converters:PathToBitmapImagelConverter x:Key="PathToBitmapImagelConverter"/>
+
+
+            <!--Colors-->
+            <SolidColorBrush x:Key="MyDarkBrush" Color="#9c0101"></SolidColorBrush>
+            <SolidColorBrush x:Key="MyMediumBrush" Color="#d90404"></SolidColorBrush>
+            <SolidColorBrush x:Key="MyLightBrush" Color="#fc0303"></SolidColorBrush>
+
+            
+            <!--CurrentViewModelOne-->
+            <DataTemplate DataType="{x:Type viewmodels:AuthorizationViewModel}">
+                <views:AuthorizationView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodels:MainMenuViewModel}">
+                <views:MainMenuView/>
+            </DataTemplate>
+            
+            
+            <!--CurrentViewModelTwo-->
+            <DataTemplate DataType="{x:Type viewmodels:DonorsViewModel}">
+                <views:DonorsView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodels:DonorsCreateViewModel}">
+                <views:DonorsCreateView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodels:DonorsDeleteViewModel}">
+                <views:DonorsDeleteView/>
+            </DataTemplate>
+
+
+            <DataTemplate DataType="{x:Type viewmodels:RecipientsViewModel}">
+                <views:RecipientsView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodels:RecipientsCreateViewModel}">
+                <views:RecipientsCreateView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodels:RecipientsDeleteViewModel}">
+                <views:RecipientsDeleteView/>
+            </DataTemplate>
+
+
+            <DataTemplate DataType="{x:Type viewmodels:DoctorsViewModel}">
+                <views:DoctorsView/>
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type viewmodels:DoctorsCreateViewModel}">
+                <views:DoctorsCreateView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodels:DoctorsDeleteViewModel}">
+                <views:DoctorsDeleteView/>
+            </DataTemplate>
+
+            
+            <DataTemplate DataType="{x:Type viewmodels:RolesViewModel}">
+                <views:RolesView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodels:RolesCreateViewModel}">
+                <views:RolesCreateView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodels:RolesDeleteViewModel}">
+                <views:RolesDeleteView/>
+            </DataTemplate>
+
+
+            <DataTemplate DataType="{x:Type viewmodels:BloodCollectionViewModel}">
+                <views:BloodCollectionView/>
+            </DataTemplate>
+
+
+            <DataTemplate DataType="{x:Type viewmodels:IssueViewModel}">
+                <views:IssueView/>
+            </DataTemplate>
+            
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
