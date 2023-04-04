@@ -24,5 +24,25 @@ namespace BloodBank.Views
         {
             InitializeComponent();
         }
+
+        private void ListViewItem_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ListViewItem listViewItem = e.Source as ListViewItem;
+            ButtonsMenuPopup.PlacementTarget = listViewItem;
+            ButtonsMenuPopup.IsOpen = true;
+        }
+
+        private void ListViewItem_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (ButtonsMenuPopup.IsMouseOver == false)
+            {
+                ButtonsMenuPopup.IsOpen = false;
+            }
+        }
+
+        private void Popup_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ButtonsMenuPopup.IsOpen = false;
+        }
     }
 }

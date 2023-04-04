@@ -17,5 +17,7 @@ namespace BloodBankLibrary.Models
         public string DateOfCollection { get; set; }
         public DoctorModel DoctorInCharge { get; set; }
         public DonationTypeModel DonationTypeModel { get; set; }
+        public BloodGroupModel BloodGroupModel { get; set; }
+
     }
 }

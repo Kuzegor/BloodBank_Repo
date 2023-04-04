@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Text;
 using System.Threading.Tasks;
 using static Dapper.SqlMapper;
+using BloodBank.Interfaces;
 
 namespace BloodBank.ViewModels
 {
@@ -180,27 +181,11 @@ namespace BloodBank.ViewModels
         public DelegateCommand OpenCreateViewCommand { get; set; }
         public DelegateCommand OpenEditViewCommand { get; set; }
         public DelegateCommand OpenDeleteViewCommand { get; set; }
+        public DelegateCommand SelectDoctorCommand { get; set; }
 
         public DoctorsViewModel()
         {
-            RolesList = new List<RoleModel>();
-            EntitiesList = new List<DoctorModel>();
-            EntitiesList = Connector.SqlConnector.GetAllDoctors(); // TODO: if EntitiesList.Count < 0
-            RolesList = Connector.SqlConnector.GetAllRoles();
-
-            Roles = new ObservableCollection<RoleModel>(RolesList);
-            Roles.Insert(0, new RoleModel { Id = -1, Name = "Все врачи" });
-            SelectedRole = Roles[0];
-
-            ItemsPerPage = new ObservableCollection<int> { 10, 30, 50, 100};
-            SelectedItemsPerPage = ItemsPerPage[0];
-
-            if (EntitiesList.Count > 0)
-            {
-                CurrentPage = Pages[0];
-                CurrentPageNumber = 1;                             
-            }
-
+            InitializeEverything();
             OpenDeleteViewCommand = new DelegateCommand(x =>
             {
                 MainMenuViewModel.Instance.CurrentViewModelTwo = new DoctorsDeleteViewModel(SelectedEntity);
@@ -213,6 +198,41 @@ namespace BloodBank.ViewModels
             {
                 MainMenuViewModel.Instance.CurrentViewModelTwo = new DoctorsCreateViewModel(RolesList);
             });
+            SubscribeToEvents();
+        }
+
+        private IDoctorsCaller DoctorsCaller { get; set; }
+        public DoctorsViewModel(IDoctorsCaller doctorsCaller)
+        {
+            InitializeEverything();
+            DoctorsCaller = doctorsCaller;
+            SelectDoctorCommand = new DelegateCommand(x =>
+            {
+                DoctorsCaller.SelectDoctor(SelectedEntity);
+                MainMenuViewModel.Instance.CurrentViewModelTwo = DoctorsCaller;
+            });
+        }
+
+        private void InitializeEverything()
+        {
+            RolesList = new List<RoleModel>();
+            EntitiesList = new List<DoctorModel>();
+            EntitiesList = Connector.SqlConnector.GetAllDoctors(); 
+            RolesList = Connector.SqlConnector.GetAllRoles();
+
+            Roles = new ObservableCollection<RoleModel>(RolesList);
+            Roles.Insert(0, new RoleModel { Id = -1, Name = "Все врачи" });
+            SelectedRole = Roles[0];
+
+            ItemsPerPage = new ObservableCollection<int> { 10, 30, 50, 100 };
+            SelectedItemsPerPage = ItemsPerPage[0];
+
+            if (EntitiesList.Count > 0)
+            {
+                CurrentPage = Pages[0];
+                CurrentPageNumber = 1;
+            }
+
             SearchCommand = new DelegateCommand(x =>
             {
                 if (EntitiesList.Count > 0)
@@ -238,7 +258,7 @@ namespace BloodBank.ViewModels
                 {
                     CurrentPage = Pages[0];
                     CurrentPageNumber = 1;
-                }             
+                }
             });
             GoToNextPage = new DelegateCommand(x =>
             {
@@ -249,7 +269,7 @@ namespace BloodBank.ViewModels
                         CurrentPageNumber++;
                         CurrentPage = Pages[CurrentPageNumber - 1];
                     }
-                }             
+                }
             });
             GoToPreviousPage = new DelegateCommand(x =>
             {
@@ -260,7 +280,7 @@ namespace BloodBank.ViewModels
                         CurrentPageNumber--;
                         CurrentPage = Pages[CurrentPageNumber - 1];
                     }
-                }             
+                }
             });
             GoToSpecificPageCommand = new DelegateCommand(x =>
             {
@@ -269,9 +289,7 @@ namespace BloodBank.ViewModels
                     CurrentPage = Pages[CurrentPageNumber - 1];
                 }
             });
-            SubscribeToEvents();
         }
-
         private void SubscribeToEvents()
         {
             Connector.SqlConnector.OnDoctorCreated += SqlConnector_OnDoctorCreated;
@@ -280,7 +298,6 @@ namespace BloodBank.ViewModels
             Connector.SqlConnector.OnRoleCreated += SqlConnector_OnRoleCreated;
             Connector.SqlConnector.OnRoleUpdated += SqlConnector_OnRoleUpdated;
         }
-
         private void SqlConnector_OnDoctorDeleted(object? sender, DoctorModel e)
         {
             EntitiesList.Remove(EntitiesList.Where(x => x.Id == e.Id).FirstOrDefault());

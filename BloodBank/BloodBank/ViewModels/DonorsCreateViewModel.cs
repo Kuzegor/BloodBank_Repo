@@ -80,7 +80,7 @@ namespace BloodBank.ViewModels
             BloodGroupsList = bloodGroupsList;
             BloodGroups = new ObservableCollection<BloodGroupModel>(BloodGroupsList);
             Donor = selectedDonor;
-            SelectedBloodGroup = BloodGroups.Where(x => x.Id == selectedDonor.BloodGroupModel.Id).FirstOrDefault();
+            SelectedBloodGroup = BloodGroups.Where(x => x.Id == selectedDonor.BloodGroup).FirstOrDefault();
 
             if (Donor.PhotoUri != DefaultUri)
             {

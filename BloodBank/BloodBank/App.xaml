@@ -4,7 +4,6 @@
              xmlns:local="clr-namespace:BloodBank"
              xmlns:viewmodels="clr-namespace:BloodBank.ViewModels"
              xmlns:views="clr-namespace:BloodBank.Views"
-             xmlns:converters="clr-namespace:BloodBank.Converters"
              StartupUri="Views/MainWindowView.xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -25,14 +24,11 @@
                 <ResourceDictionary Source="Styles/ScrollViewerStyle.xaml"/>
                 <ResourceDictionary Source="Styles/ListViewItemDoctorStyle.xaml"/>
                 <ResourceDictionary Source="Styles/ListViewItemRecipientStyle.xaml"/>
+                <ResourceDictionary Source="Styles/ListViewItemBloodStyle.xaml"/>
                 <ResourceDictionary Source="Styles/PageButtonStyle.xaml"/>
                 <ResourceDictionary Source="Styles/PopupBorderStyle.xaml"/>
                 <ResourceDictionary Source="Styles/AddButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-
-
-            <!--Converters-->
-            <converters:PathToBitmapImagelConverter x:Key="PathToBitmapImagelConverter"/>
 
 
             <!--Colors-->
@@ -106,6 +102,14 @@
 
             <DataTemplate DataType="{x:Type viewmodels:BloodCollectionViewModel}">
                 <views:BloodCollectionView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodels:BloodCollectionCreateViewModel}">
+                <views:BloodCollectionCreateView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodels:BloodCollectionDeleteViewModel}">
+                <views:BloodCollectionDeleteView/>
             </DataTemplate>
 
 

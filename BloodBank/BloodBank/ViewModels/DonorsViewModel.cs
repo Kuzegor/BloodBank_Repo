@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BloodBank.Interfaces;
 
 namespace BloodBank.ViewModels
 {
@@ -178,8 +179,39 @@ namespace BloodBank.ViewModels
         public DelegateCommand OpenCreateViewCommand { get; set; }
         public DelegateCommand OpenEditViewCommand { get; set; }
         public DelegateCommand OpenDeleteViewCommand { get; set; }
+        public DelegateCommand SelectDonorCommand { get; set; }
 
         public DonorsViewModel()
+        {
+            InitializeEverything();
+            OpenCreateViewCommand = new DelegateCommand(x =>
+            {
+                MainMenuViewModel.Instance.CurrentViewModelTwo = new DonorsCreateViewModel(BloodGroupsList);
+            });
+            OpenDeleteViewCommand = new DelegateCommand(x =>
+            {
+                MainMenuViewModel.Instance.CurrentViewModelTwo = new DonorsDeleteViewModel(SelectedEntity);
+            });
+            OpenEditViewCommand = new DelegateCommand(x =>
+            {
+                MainMenuViewModel.Instance.CurrentViewModelTwo = new DonorsCreateViewModel(SelectedEntity, BloodGroupsList);
+            });
+            SubscribeToEvents();
+        }
+
+        private IDonorsCaller DonorsCaller { get; set; }
+        public DonorsViewModel(IDonorsCaller donorsCaller)
+        {
+            InitializeEverything();
+            DonorsCaller = donorsCaller;
+            SelectDonorCommand = new DelegateCommand(x =>
+            {
+                DonorsCaller.SelectDonor(SelectedEntity);
+                MainMenuViewModel.Instance.CurrentViewModelTwo = DonorsCaller;
+            });
+        }
+
+        private void InitializeEverything()
         {
             BloodGroupsList = new List<BloodGroupModel>();
             EntitiesList = new List<DonorModel>();
@@ -195,28 +227,16 @@ namespace BloodBank.ViewModels
             BloodGroups.Insert(0, new BloodGroupModel { Id = -1, Name = "Все группы крови" });
             SelectedBloodGroup = BloodGroups[0];
 
-            ItemsPerPage = new ObservableCollection<int> { 10, 30, 50, 100};
+            ItemsPerPage = new ObservableCollection<int> { 10, 30, 50, 100 };
             SelectedItemsPerPage = ItemsPerPage[0];
 
 
             if (EntitiesList.Count > 0)
             {
                 CurrentPage = Pages[0];
-                CurrentPageNumber = 1;              
+                CurrentPageNumber = 1;
             }
 
-            OpenDeleteViewCommand = new DelegateCommand(x =>
-            {
-                MainMenuViewModel.Instance.CurrentViewModelTwo = new DonorsDeleteViewModel(SelectedEntity);
-            });
-            OpenEditViewCommand = new DelegateCommand(x =>
-            {
-                MainMenuViewModel.Instance.CurrentViewModelTwo = new DonorsCreateViewModel(SelectedEntity, BloodGroupsList);
-            });
-            OpenCreateViewCommand = new DelegateCommand(x =>
-            {
-                MainMenuViewModel.Instance.CurrentViewModelTwo = new DonorsCreateViewModel(BloodGroupsList);
-            });
             SearchCommand = new DelegateCommand(x =>
             {
                 if (EntitiesList.Count > 0)
@@ -225,7 +245,7 @@ namespace BloodBank.ViewModels
                     List<DonorModel> EntitiesToShow = SearchForEntities(SearchBoxText);
                     Pages = PopulatePages(EntitiesToShow);
                     CurrentPage = Pages[0];
-                    CurrentPageNumber = 1; 
+                    CurrentPageNumber = 1;
                 }
             });
             GoToLastPage = new DelegateCommand(x =>
@@ -233,7 +253,7 @@ namespace BloodBank.ViewModels
                 if (EntitiesList.Count > 0)
                 {
                     CurrentPage = Pages[Pages.Count - 1];
-                    CurrentPageNumber = Pages.Count; 
+                    CurrentPageNumber = Pages.Count;
                 }
             });
             GoToFirstPage = new DelegateCommand(x =>
@@ -241,7 +261,7 @@ namespace BloodBank.ViewModels
                 if (EntitiesList.Count > 0)
                 {
                     CurrentPage = Pages[0];
-                    CurrentPageNumber = 1; 
+                    CurrentPageNumber = 1;
                 }
             });
             GoToNextPage = new DelegateCommand(x =>
@@ -252,7 +272,7 @@ namespace BloodBank.ViewModels
                     {
                         CurrentPageNumber++;
                         CurrentPage = Pages[CurrentPageNumber - 1];
-                    } 
+                    }
                 }
             });
             GoToPreviousPage = new DelegateCommand(x =>
@@ -263,7 +283,7 @@ namespace BloodBank.ViewModels
                     {
                         CurrentPageNumber--;
                         CurrentPage = Pages[CurrentPageNumber - 1];
-                    } 
+                    }
                 }
             });
             GoToSpecificPageCommand = new DelegateCommand(x =>
@@ -271,11 +291,9 @@ namespace BloodBank.ViewModels
                 if (EntitiesList.Count > 0)
                 {
                     CurrentPage = Pages[CurrentPageNumber - 1];
-                }            
+                }
             });
-            SubscribeToEvents();
         }
-
         private void SubscribeToEvents()
         {
             Connector.SqlConnector.OnDonorCreated += SqlConnector_OnDonorCreated;

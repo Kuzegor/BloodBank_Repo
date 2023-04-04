@@ -84,7 +84,7 @@ namespace BloodBank.ViewModels
             {
                 Instance.AllowSelectedItemNull = true;
                 Instance.CurrentViewModelTwo = Instance.BloodCollectionViewModel;
-                //Instance.BloodCollectionViewModel.SelectedEntity = null;
+                Instance.BloodCollectionViewModel.SelectedEntity = null;
                 Instance.AllowSelectedItemNull = false;
             });
             ShowIssueCommand = new DelegateCommand(x =>

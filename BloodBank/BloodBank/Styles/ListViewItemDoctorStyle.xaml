@@ -47,22 +47,60 @@
                                             Grid.Column="1"
                                             Margin="0,0,10,10"
                                             >
-                                    
-                                    <TextBlock Text="{Binding Role.Name}"
+
+                                    <StackPanel Orientation="Horizontal">
+
+
+                                        <TextBlock Text="Роль: " 
+                                           Margin="0,0,0,0"                                          
+                                           TextWrapping="Wrap"
+                                               FontSize="12"
+                                                   />
+
+                                        <TextBlock Text="{Binding Role.Name}"
                                            Margin="0,0,0,0" 
                                            MaxWidth="295" MaxHeight="65"
                                            TextWrapping="Wrap"
-                                               FontSize="12"/>
+                                               FontSize="12"
+                                                   FontWeight="SemiBold"/>
 
-                                    <TextBlock Text="{Binding Phone}" 
+                                    </StackPanel>
+                                    
+                                 
+
+                                    <StackPanel Orientation="Horizontal">
+
+
+                                        <TextBlock Text="Телефон: " 
                                            Margin="0,0,0,0"                                          
                                            TextWrapping="Wrap"
-                                               FontSize="12"/>
+                                               FontSize="12"
+                                                   />
 
-                                    <TextBlock Text="{Binding Email}" 
+                                        <TextBlock Text="{Binding Phone}" 
                                            Margin="0,0,0,0"                                          
                                            TextWrapping="Wrap"
-                                               FontSize="12"/>
+                                               FontSize="12"
+                                                   FontWeight="SemiBold"/>
+
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal">
+
+
+                                        <TextBlock Text="Email: " 
+                                           Margin="0,0,0,0"                                          
+                                           TextWrapping="Wrap"
+                                               FontSize="12"
+                                                   />
+
+                                        <TextBlock Text="{Binding Email}" 
+                                           Margin="0,0,0,0"                                          
+                                           TextWrapping="Wrap"
+                                               FontSize="12"
+                                                   FontWeight="SemiBold"/>
+
+                                    </StackPanel>
                                 </StackPanel>
                             </Grid>
 
