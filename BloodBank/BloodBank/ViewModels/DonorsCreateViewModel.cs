@@ -162,7 +162,7 @@ namespace BloodBank.ViewModels
                     FileInfo fi = new FileInfo(dialog.FileName);
                     //fi.Length; //The size of the current file in bytes.file 
 
-                    if (fi.Length <= 20000)
+                    if (fi.Length <= 25000)
                     {
                         DialogFileName = dialog.FileName;
                         string name = System.IO.Path.GetFileName(DialogFileName);
@@ -171,7 +171,7 @@ namespace BloodBank.ViewModels
                     }
                     else
                     {
-                        MessageBox.Show("Размер файла не должен быть больше 20 KB.", "Внимание!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        MessageBox.Show("Размер файла не должен быть более 25 KB.", "Внимание!", MessageBoxButton.OK, MessageBoxImage.Warning);
                     }
                 }
             });

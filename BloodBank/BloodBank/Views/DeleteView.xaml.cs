@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace BloodBank.Views
 {
     /// <summary>
-    /// Interaction logic for RolesDeleteView.xaml
+    /// Interaction logic for DeleteView.xaml
     /// </summary>
-    public partial class RolesDeleteView : UserControl
+    public partial class DeleteView : UserControl
     {
-        public RolesDeleteView()
+        public DeleteView()
         {
             InitializeComponent();
         }

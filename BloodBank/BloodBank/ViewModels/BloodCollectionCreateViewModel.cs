@@ -49,7 +49,7 @@ namespace BloodBank.ViewModels
             get { return selectedDonor; }
             set { selectedDonor = value;
                 Blood.Donor = selectedDonor;
-                if (selectedDonor.BloodGroupModel != null)
+                if (selectedDonor != null && selectedDonor.BloodGroupModel != null)
                 {
                     SelectedBloodGroup = selectedDonor.BloodGroupModel;
                 }
@@ -154,7 +154,6 @@ namespace BloodBank.ViewModels
         {
             SelectedDonor = selectedDonor;
         }
-
         public void SelectDoctor(DoctorModel selectedDoctor)
         {
             SelectedDoctor = selectedDoctor;

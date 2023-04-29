@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="BloodBank.Views.DoctorsDeleteView"
+﻿<UserControl x:Class="BloodBank.Views.DeleteView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -26,7 +26,7 @@
                            FontSize="34"
                            HorizontalAlignment="Center"
                            Margin="0,15,0,0"/>
-                    
+
                     <Grid Grid.Row="1" Height="100">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -47,7 +47,7 @@
                                 Margin="10,0,0,0"
                                 Command="{Binding DeleteCommand}"/>
                     </Grid>
-                    
+
                 </Grid>
             </Border>
         </Grid>

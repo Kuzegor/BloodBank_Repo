@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BloodBank.Interfaces;
 
 namespace BloodBank.ViewModels
 {
@@ -207,8 +208,122 @@ namespace BloodBank.ViewModels
         public DelegateCommand OpenCreateViewCommand { get; set; }
         public DelegateCommand OpenEditViewCommand { get; set; }
         public DelegateCommand OpenDeleteViewCommand { get; set; }
+        public DelegateCommand SelectBloodCommand { get; set; }
 
         public BloodCollectionViewModel()
+        {
+            InitializeEverything();
+            OpenDeleteViewCommand = new DelegateCommand(x =>
+            {
+                MainMenuViewModel.Instance.CurrentViewModelTwo = new BloodCollectionDeleteViewModel(SelectedEntity);
+            });
+            OpenEditViewCommand = new DelegateCommand(x =>
+            {
+                MainMenuViewModel.Instance.CurrentViewModelTwo = new BloodCollectionCreateViewModel(SelectedEntity, DonationTypesList);
+            });
+            OpenCreateViewCommand = new DelegateCommand(x =>
+            {
+                MainMenuViewModel.Instance.CurrentViewModelTwo = new BloodCollectionCreateViewModel(DonationTypesList);
+            });
+            SubscribeToEvents();
+        }
+
+        private IBloodCollectionCaller BloodCollectionCaller { get; set; }
+        public BloodCollectionViewModel(IBloodCollectionCaller bloodCollectionCaller, int bloodGroupId, int bloodId = -2)
+        {
+            InitializeEverything();
+            BloodCollectionCaller = bloodCollectionCaller;
+            SelectBloodCommand = new DelegateCommand(x =>
+            {
+                BloodCollectionCaller.SelectBlood(SelectedEntity);
+                MainMenuViewModel.Instance.CurrentViewModelTwo = BloodCollectionCaller;
+            });
+            if (bloodId > -2)
+            {
+                EntitiesList.Remove(EntitiesList.Where(x => x.Id == bloodId).FirstOrDefault());
+            }
+            FilterBloodCollectionByRecipientsBloodGroup(bloodGroupId);
+        }
+
+        /// <summary>
+        /// Фильтрует список крови, оставляя лишь кровь совместимую с кровью реципиента
+        /// </summary>
+        /// <param name="bloodGroupId"></param>
+        private void FilterBloodCollectionByRecipientsBloodGroup(int bloodGroupId)
+        {
+            switch (bloodGroupId)
+            {
+                case 1: //O+
+                    EntitiesList = EntitiesList.Where(x => x.BloodGroup == 1 || x.BloodGroup == 2).ToList();
+                    BloodGroups.RemoveAt(8);
+                    BloodGroups.RemoveAt(7);
+                    BloodGroups.RemoveAt(6);
+                    BloodGroups.RemoveAt(5);
+                    BloodGroups.RemoveAt(4);
+                    BloodGroups.RemoveAt(3);
+                    break;
+                case 2: //O-
+                    EntitiesList = EntitiesList.Where(x => x.BloodGroup == 2).ToList();
+                    BloodGroups.RemoveAt(8);
+                    BloodGroups.RemoveAt(7);
+                    BloodGroups.RemoveAt(6);
+                    BloodGroups.RemoveAt(5);
+                    BloodGroups.RemoveAt(4);
+                    BloodGroups.RemoveAt(3);
+                    BloodGroups.RemoveAt(1);
+                    break;
+                case 3: //A+
+                    EntitiesList = EntitiesList.Where(x => x.BloodGroup == 1 || x.BloodGroup == 2 || x.BloodGroup == 3 || x.BloodGroup == 4).ToList();
+                    BloodGroups.RemoveAt(8);
+                    BloodGroups.RemoveAt(7);
+                    BloodGroups.RemoveAt(6);
+                    BloodGroups.RemoveAt(5);
+                    break;
+                case 4: //A-
+                    EntitiesList = EntitiesList.Where(x => x.BloodGroup == 2 || x.BloodGroup == 4).ToList();
+                    BloodGroups.RemoveAt(8);
+                    BloodGroups.RemoveAt(7);
+                    BloodGroups.RemoveAt(6);
+                    BloodGroups.RemoveAt(5);
+                    BloodGroups.RemoveAt(3);
+                    BloodGroups.RemoveAt(1);
+                    break;
+                case 5: //B+
+                    EntitiesList = EntitiesList.Where(x => x.BloodGroup == 1 || x.BloodGroup == 2 || x.BloodGroup == 5 || x.BloodGroup == 6).ToList();
+                    BloodGroups.RemoveAt(8);
+                    BloodGroups.RemoveAt(7);
+                    BloodGroups.RemoveAt(4);
+                    BloodGroups.RemoveAt(3);
+                    break;
+                case 6: //B-
+                    EntitiesList = EntitiesList.Where(x => x.BloodGroup == 2 || x.BloodGroup == 6).ToList();
+                    BloodGroups.RemoveAt(8);
+                    BloodGroups.RemoveAt(7);
+                    BloodGroups.RemoveAt(5);
+                    BloodGroups.RemoveAt(4);
+                    BloodGroups.RemoveAt(3);
+                    BloodGroups.RemoveAt(1);
+                    break;
+                case 7: //AB+
+                    //do nothing
+                    break;
+                case 8: //AB-
+                    EntitiesList = EntitiesList.Where(x => x.BloodGroup == 2 || x.BloodGroup == 4 || x.BloodGroup == 6 || x.BloodGroup == 8).ToList();
+                    BloodGroups.RemoveAt(7);
+                    BloodGroups.RemoveAt(5);
+                    BloodGroups.RemoveAt(3);
+                    BloodGroups.RemoveAt(1);
+                    break;
+                default:
+                    //do nothing
+                    break;
+            }
+
+            Pages = PopulatePages(EntitiesList);
+            CurrentPage = Pages[0];
+            CurrentPageNumber = 1;
+        }
+        private void InitializeEverything()
         {
             DonationTypesList = new List<DonationTypeModel>();
             BloodGroupsList = new List<BloodGroupModel>();
@@ -241,18 +356,7 @@ namespace BloodBank.ViewModels
                 CurrentPageNumber = 1;
             }
 
-            OpenDeleteViewCommand = new DelegateCommand(x =>
-            {
-                MainMenuViewModel.Instance.CurrentViewModelTwo = new BloodCollectionDeleteViewModel(SelectedEntity);
-            });
-            OpenEditViewCommand = new DelegateCommand(x =>
-            {
-                MainMenuViewModel.Instance.CurrentViewModelTwo = new BloodCollectionCreateViewModel(SelectedEntity, DonationTypesList);
-            });
-            OpenCreateViewCommand = new DelegateCommand(x =>
-            {
-                MainMenuViewModel.Instance.CurrentViewModelTwo = new BloodCollectionCreateViewModel(DonationTypesList);
-            });
+            
             SearchCommand = new DelegateCommand(x =>
             {
                 if (EntitiesList.Count > 0)
@@ -303,23 +407,57 @@ namespace BloodBank.ViewModels
                     CurrentPage = Pages[CurrentPageNumber - 1];
                 }
             });
-            SubscribeToEvents();
         }
-
         private void SubscribeToEvents()
         {
             Connector.SqlConnector.OnBloodCreated += SqlConnector_OnBloodCreated;
             Connector.SqlConnector.OnBloodDeleted += SqlConnector_OnBloodDeleted;
+            Connector.SqlConnector.OnDonorUpdated += SqlConnector_OnDonorUpdated;
+            Connector.SqlConnector.OnDoctorUpdated += SqlConnector_OnDoctorUpdated;
+            Connector.SqlConnector.OnBloodAmountUpdated += SqlConnector_OnBloodAmountUpdated;
         }
-        private void SqlConnector_OnBloodDeleted(object? sender, BloodModel e)
+
+        private void SqlConnector_OnBloodAmountUpdated(object? sender, Dictionary<int, double> e)
         {
-            EntitiesList.Remove(e);
-            if (EntitiesList.Count > 0)
+            BloodModel blood = EntitiesList.Where(x => x.Id == e.Keys.FirstOrDefault()).FirstOrDefault();
+
+            if (blood != null)
             {
+                blood.Amount = e.Values.FirstOrDefault();
+                Pages = PopulatePages(EntitiesList);
+                CurrentPage = Pages[0];
+                CurrentPageNumber = 1; 
+            }
+        }
+        private void SqlConnector_OnDoctorUpdated(object? sender, DoctorModel e)
+        {
+            BloodModel blood = EntitiesList.Where(x => x.DoctorInCharge.Id == e.Id).FirstOrDefault();
+            if (blood != null)
+            {
+                blood.DoctorInCharge = e;
+                Pages = PopulatePages(EntitiesList);
+                CurrentPage = Pages[0];
+                CurrentPageNumber = 1; 
+            }
+        }
+        private void SqlConnector_OnDonorUpdated(object? sender, DonorModel e)
+        {
+            BloodModel blood = EntitiesList.Where(x => x.Donor.Id == e.Id).FirstOrDefault();
+            if (blood != null)
+            {
+                blood.Donor = e;
                 Pages = PopulatePages(EntitiesList);
                 CurrentPage = Pages[0];
                 CurrentPageNumber = 1;
             }
+        }
+        private void SqlConnector_OnBloodDeleted(object? sender, BloodModel e)
+        {
+            EntitiesList.Remove(e);
+
+            Pages = PopulatePages(EntitiesList);
+            CurrentPage = Pages[0];
+            CurrentPageNumber = 1;
         }
         private void SqlConnector_OnBloodCreated(object? sender, BloodModel e)
         {

@@ -91,8 +91,8 @@ namespace BloodBank.ViewModels
             {
                 Instance.AllowSelectedItemNull = true;
                 Instance.CurrentViewModelTwo = Instance.IssueViewModel;
-                //Instance.IssueViewModel.SelectedEntity = null; 
-                Instance.AllowSelectedItemNull = false; //TODO: SelectedEntity
+                Instance.IssueViewModel.SelectedEntity = null; 
+                Instance.AllowSelectedItemNull = false;
             });
 
             AllowSelectedItemNull = false;

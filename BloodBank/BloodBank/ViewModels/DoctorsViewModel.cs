@@ -301,12 +301,9 @@ namespace BloodBank.ViewModels
         private void SqlConnector_OnDoctorDeleted(object? sender, DoctorModel e)
         {
             EntitiesList.Remove(EntitiesList.Where(x => x.Id == e.Id).FirstOrDefault());
-            if (EntitiesList.Count > 0)
-            {
-                Pages = PopulatePages(EntitiesList);
-                CurrentPage = Pages[0];
-                CurrentPageNumber = 1; 
-            }
+            Pages = PopulatePages(EntitiesList);
+            CurrentPage = Pages[0];
+            CurrentPageNumber = 1;
         }
         private void SqlConnector_OnDoctorCreated(object? sender, DoctorModel e)
         {

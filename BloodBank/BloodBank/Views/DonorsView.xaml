@@ -65,7 +65,7 @@
 
         <Popup x:Name="ButtonsMenuPopup"
                HorizontalOffset="490"
-               VerticalOffset="-117"
+               VerticalOffset="-120"
                >
             <Popup.Style>
                 <Style TargetType="Popup">
@@ -80,7 +80,7 @@
                             HorizontalContentAlignment="Center"
                             FontSize="14"
                             x:Name="SelectButton"/>
-                    <Button Command="{Binding OpenCreateViewCommand}" 
+                    <Button Command="{Binding OpenEditViewCommand}" 
                         Style="{StaticResource MenuButtonStyle}"
                         Content="Подробности/Изменить"
                             HorizontalContentAlignment="Center"

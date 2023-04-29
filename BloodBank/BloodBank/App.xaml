@@ -25,6 +25,7 @@
                 <ResourceDictionary Source="Styles/ListViewItemDoctorStyle.xaml"/>
                 <ResourceDictionary Source="Styles/ListViewItemRecipientStyle.xaml"/>
                 <ResourceDictionary Source="Styles/ListViewItemBloodStyle.xaml"/>
+                <ResourceDictionary Source="Styles/ListViewItemIssueStyle.xaml"/>
                 <ResourceDictionary Source="Styles/PageButtonStyle.xaml"/>
                 <ResourceDictionary Source="Styles/PopupBorderStyle.xaml"/>
                 <ResourceDictionary Source="Styles/AddButtonStyle.xaml"/>
@@ -57,7 +58,7 @@
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type viewmodels:DonorsDeleteViewModel}">
-                <views:DonorsDeleteView/>
+                <views:DeleteView/>
             </DataTemplate>
 
 
@@ -70,7 +71,7 @@
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type viewmodels:RecipientsDeleteViewModel}">
-                <views:RecipientsDeleteView/>
+                <views:DeleteView/>
             </DataTemplate>
 
 
@@ -83,7 +84,7 @@
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type viewmodels:DoctorsDeleteViewModel}">
-                <views:DoctorsDeleteView/>
+                <views:DeleteView/>
             </DataTemplate>
 
             
@@ -96,7 +97,7 @@
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type viewmodels:RolesDeleteViewModel}">
-                <views:RolesDeleteView/>
+                <views:DeleteView/>
             </DataTemplate>
 
 
@@ -109,12 +110,24 @@
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type viewmodels:BloodCollectionDeleteViewModel}">
-                <views:BloodCollectionDeleteView/>
+                <views:DeleteView/>
             </DataTemplate>
 
 
             <DataTemplate DataType="{x:Type viewmodels:IssueViewModel}">
                 <views:IssueView/>
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type viewmodels:IssueCreateViewModel}">
+                <views:IssueCreateView/>
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type viewmodels:IssueDeleteViewModel}">
+                <views:DeleteView/>
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type viewmodels:IssuePrintViewModel}">
+                <views:IssuePrintView/>
             </DataTemplate>
             
         </ResourceDictionary>

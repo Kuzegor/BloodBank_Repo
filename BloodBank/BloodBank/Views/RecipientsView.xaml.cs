@@ -44,5 +44,33 @@ namespace BloodBank.Views
         {
             ButtonsMenuPopup.IsOpen = false;
         }
+
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetVisibility();
+        }
+
+        private void Grid_LayoutUpdated(object sender, EventArgs e)
+        {
+            SetVisibility();
+        }
+
+        private void SetVisibility()
+        {
+            if (SelectButton.Command != null)
+            {
+                SelectButton.Visibility = Visibility.Visible;
+                EditButton.Visibility = Visibility.Collapsed;
+                DeleteButton.Visibility = Visibility.Collapsed;
+                CreateButton.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                SelectButton.Visibility = Visibility.Collapsed;
+                EditButton.Visibility = Visibility.Visible;
+                DeleteButton.Visibility = Visibility.Visible;
+                CreateButton.Visibility = Visibility.Visible;
+            }
+        }
     }
 }

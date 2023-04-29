@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Navigation;
+using BloodBank.Interfaces;
 
 namespace BloodBank.ViewModels
 {
@@ -179,8 +180,119 @@ namespace BloodBank.ViewModels
         public DelegateCommand OpenCreateViewCommand { get; set; }
         public DelegateCommand OpenEditViewCommand { get; set; }
         public DelegateCommand OpenDeleteViewCommand { get; set; }
+        public DelegateCommand SelectRecipientCommand { get; set; }
+
 
         public RecipientsViewModel()
+        {
+            InitializeEverything();
+            OpenDeleteViewCommand = new DelegateCommand(x =>
+            {
+                MainMenuViewModel.Instance.CurrentViewModelTwo = new RecipientsDeleteViewModel(SelectedEntity);
+            });
+            OpenEditViewCommand = new DelegateCommand(x =>
+            {
+                MainMenuViewModel.Instance.CurrentViewModelTwo = new RecipientsCreateViewModel(SelectedEntity, BloodGroupsList);
+            });
+            OpenCreateViewCommand = new DelegateCommand(x =>
+            {
+                MainMenuViewModel.Instance.CurrentViewModelTwo = new RecipientsCreateViewModel(BloodGroupsList);
+            });
+            SubscribeToEvents();
+        }
+
+        private IRecipientsCaller RecipientsCaller { get; set; }
+        public RecipientsViewModel(IRecipientsCaller recipientsCaller, int bloodGroupId)
+        {
+            InitializeEverything();
+            RecipientsCaller = recipientsCaller;
+            SelectRecipientCommand = new DelegateCommand(x =>
+            {
+                RecipientsCaller.SelectRecipient(SelectedEntity);
+                MainMenuViewModel.Instance.CurrentViewModelTwo = RecipientsCaller;
+            });
+            FilterRecipientsByBloodGroup(bloodGroupId);
+        }
+
+        /// <summary>
+        /// Фильтрует список пациентов, оставляя лишь совместимых с выбранной кровью
+        /// </summary>
+        /// <param name="bloodGroupId"></param>
+        private void FilterRecipientsByBloodGroup(int bloodGroupId)
+        {
+            switch (bloodGroupId)
+            {
+                case 1: //O+
+                    EntitiesList = EntitiesList.Where(x => x.BloodGroup == 2 || x.BloodGroup == 4 || x.BloodGroup == 6 || x.BloodGroup == 8).ToList();
+                    BloodGroups.RemoveAt(7);
+                    BloodGroups.RemoveAt(5);
+                    BloodGroups.RemoveAt(3);
+                    BloodGroups.RemoveAt(1);
+                    break;
+                case 2: //O-
+                    //do nothing
+                    break;
+                case 3: //A+
+                    EntitiesList = EntitiesList.Where(x => x.BloodGroup == 3 || x.BloodGroup == 7).ToList();
+                    BloodGroups.RemoveAt(8);
+                    BloodGroups.RemoveAt(6);
+                    BloodGroups.RemoveAt(5);
+                    BloodGroups.RemoveAt(4);
+                    BloodGroups.RemoveAt(2);
+                    BloodGroups.RemoveAt(1);
+                    break;
+                case 4: //A-
+                    EntitiesList = EntitiesList.Where(x => x.BloodGroup == 3 || x.BloodGroup == 4 || x.BloodGroup == 7 || x.BloodGroup == 8).ToList();
+                    BloodGroups.RemoveAt(6);
+                    BloodGroups.RemoveAt(5);
+                    BloodGroups.RemoveAt(2);
+                    BloodGroups.RemoveAt(1);
+                    break;
+                case 5: //B+
+                    EntitiesList = EntitiesList.Where(x => x.BloodGroup == 5 || x.BloodGroup == 7).ToList();
+                    BloodGroups.RemoveAt(8);
+                    BloodGroups.RemoveAt(6);
+                    BloodGroups.RemoveAt(4);
+                    BloodGroups.RemoveAt(3);
+                    BloodGroups.RemoveAt(2);
+                    BloodGroups.RemoveAt(1);
+                    break;
+                case 6: //B-
+                    EntitiesList = EntitiesList.Where(x => x.BloodGroup == 5 || x.BloodGroup == 6 || x.BloodGroup == 7 || x.BloodGroup == 8).ToList();
+                    BloodGroups.RemoveAt(4);
+                    BloodGroups.RemoveAt(3);
+                    BloodGroups.RemoveAt(2);
+                    BloodGroups.RemoveAt(1);
+                    break;
+                case 7: //AB+
+                    EntitiesList = EntitiesList.Where(x => x.BloodGroup == 7).ToList();
+                    BloodGroups.RemoveAt(8);
+                    BloodGroups.RemoveAt(6);
+                    BloodGroups.RemoveAt(5);
+                    BloodGroups.RemoveAt(4);
+                    BloodGroups.RemoveAt(3);
+                    BloodGroups.RemoveAt(2);
+                    BloodGroups.RemoveAt(1);
+                    break;
+                case 8: //AB-
+                    EntitiesList = EntitiesList.Where(x => x.BloodGroup == 7 || x.BloodGroup == 8).ToList();
+                    BloodGroups.RemoveAt(6);
+                    BloodGroups.RemoveAt(5);
+                    BloodGroups.RemoveAt(4);
+                    BloodGroups.RemoveAt(3);
+                    BloodGroups.RemoveAt(2);
+                    BloodGroups.RemoveAt(1);
+                    break;
+                default:
+                    //do nothing
+                    break;
+            }
+
+            Pages = PopulatePages(EntitiesList);
+            CurrentPage = Pages[0];
+            CurrentPageNumber = 1;
+        }
+        private void InitializeEverything()
         {
             BloodGroupsList = new List<BloodGroupModel>();
             EntitiesList = new List<RecipientModel>();
@@ -196,28 +308,17 @@ namespace BloodBank.ViewModels
             BloodGroups.Insert(0, new BloodGroupModel { Id = -1, Name = "Все группы крови" });
             SelectedBloodGroup = BloodGroups[0];
 
-            ItemsPerPage = new ObservableCollection<int> { 10, 30, 50, 100};
+            ItemsPerPage = new ObservableCollection<int> { 10, 30, 50, 100 };
             SelectedItemsPerPage = ItemsPerPage[0];
 
 
             if (EntitiesList.Count > 0)
             {
                 CurrentPage = Pages[0];
-                CurrentPageNumber = 1;                
+                CurrentPageNumber = 1;
             }
 
-            OpenDeleteViewCommand = new DelegateCommand(x =>
-            {
-                MainMenuViewModel.Instance.CurrentViewModelTwo = new RecipientsDeleteViewModel(SelectedEntity);
-            });
-            OpenEditViewCommand = new DelegateCommand(x =>
-            {
-                MainMenuViewModel.Instance.CurrentViewModelTwo = new RecipientsCreateViewModel(SelectedEntity, BloodGroupsList);
-            });
-            OpenCreateViewCommand = new DelegateCommand(x =>
-            {
-                MainMenuViewModel.Instance.CurrentViewModelTwo = new RecipientsCreateViewModel(BloodGroupsList);
-            });
+            
             SearchCommand = new DelegateCommand(x =>
             {
                 if (EntitiesList.Count > 0)
@@ -226,7 +327,7 @@ namespace BloodBank.ViewModels
                     List<RecipientModel> EntitiesToShow = SearchForEntities(SearchBoxText);
                     Pages = PopulatePages(EntitiesToShow);
                     CurrentPage = Pages[0];
-                    CurrentPageNumber = 1; 
+                    CurrentPageNumber = 1;
                 }
             });
             GoToLastPage = new DelegateCommand(x =>
@@ -234,7 +335,7 @@ namespace BloodBank.ViewModels
                 if (EntitiesList.Count > 0)
                 {
                     CurrentPage = Pages[Pages.Count - 1];
-                    CurrentPageNumber = Pages.Count; 
+                    CurrentPageNumber = Pages.Count;
                 }
             });
             GoToFirstPage = new DelegateCommand(x =>
@@ -242,7 +343,7 @@ namespace BloodBank.ViewModels
                 if (EntitiesList.Count > 0)
                 {
                     CurrentPage = Pages[0];
-                    CurrentPageNumber = 1; 
+                    CurrentPageNumber = 1;
                 }
             });
             GoToNextPage = new DelegateCommand(x =>
@@ -265,12 +366,10 @@ namespace BloodBank.ViewModels
             {
                 if (EntitiesList.Count > 0)
                 {
-                    CurrentPage = Pages[CurrentPageNumber - 1]; 
+                    CurrentPage = Pages[CurrentPageNumber - 1];
                 }
             });
-            SubscribeToEvents();
         }
-
         private void SubscribeToEvents()
         {
             Connector.SqlConnector.OnRecipientCreated += SqlConnector_OnRecipientCreated;
@@ -279,12 +378,9 @@ namespace BloodBank.ViewModels
         private void SqlConnector_OnRecipientDeleted(object? sender, RecipientModel e)
         {
             EntitiesList.Remove(e);
-            if (EntitiesList.Count > 0)
-            {
-                Pages = PopulatePages(EntitiesList);
-                CurrentPage = Pages[0];
-                CurrentPageNumber = 1; 
-            }
+            Pages = PopulatePages(EntitiesList);
+            CurrentPage = Pages[0];
+            CurrentPageNumber = 1;
         }
         private void SqlConnector_OnRecipientCreated(object? sender, RecipientModel e)
         {

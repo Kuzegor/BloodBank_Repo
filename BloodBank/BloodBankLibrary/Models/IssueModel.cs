@@ -16,5 +16,8 @@ namespace BloodBankLibrary.Models
         public decimal PricePaid { get; set; }
         public DoctorModel DoctorInCharge { get; set; }
         public string DateOfIssue { get; set; }
+
+        public DonationTypeModel DonationTypeModel { get; set; }
+        public BloodGroupModel BloodGroupModel { get; set; }
     }
 }

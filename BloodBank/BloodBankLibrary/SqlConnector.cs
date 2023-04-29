@@ -16,12 +16,15 @@ namespace BloodBankLibrary
 
 
         public event EventHandler<DoctorModel> OnDoctorCreated;
+        public event EventHandler<DoctorModel> OnDoctorUpdated;
         public event EventHandler<DoctorModel> OnDoctorDeleted;
 
         public event EventHandler<DonorModel> OnDonorCreated;
+        public event EventHandler<DonorModel> OnDonorUpdated;
         public event EventHandler<DonorModel> OnDonorDeleted;
 
         public event EventHandler<RecipientModel> OnRecipientCreated;
+        public event EventHandler<RecipientModel> OnRecipientUpdated;
         public event EventHandler<RecipientModel> OnRecipientDeleted;
 
         public event EventHandler<RoleModel> OnRoleCreated;
@@ -33,6 +36,8 @@ namespace BloodBankLibrary
 
         public event EventHandler<IssueModel> OnIssueCreated;
         public event EventHandler<IssueModel> OnIssueDeleted;
+
+        public event EventHandler<Dictionary<int,double>> OnBloodAmountUpdated;
 
 
         //Roles
@@ -139,6 +144,7 @@ namespace BloodBankLibrary
                 parameters.Add("@Id", doctorModel.Id);
                 connection.Execute("dbo.spDoctors_UpdateById", parameters, commandType: CommandType.StoredProcedure);
             }
+            OnDoctorUpdated?.Invoke(this, doctorModel);
         }
 
         public void DeleteDoctor(DoctorModel doctorModel)
@@ -198,6 +204,7 @@ namespace BloodBankLibrary
                 parameters.Add("@Id", recipientModel.Id);
                 connection.Execute("dbo.spRecipients_UpdateById", parameters, commandType: CommandType.StoredProcedure);
             }
+            OnRecipientUpdated?.Invoke(this, recipientModel);
         }
 
         public void DeleteRecipient(RecipientModel recipientModel)
@@ -257,6 +264,7 @@ namespace BloodBankLibrary
                 parameters.Add("@Id", donorModel.Id);
                 connection.Execute("dbo.spDonors_UpdateById", parameters, commandType: CommandType.StoredProcedure);
             }
+            OnDonorUpdated?.Invoke(this, donorModel);
         }
 
         public void DeleteDonor(DonorModel donorModel)
@@ -413,6 +421,31 @@ namespace BloodBankLibrary
                 connection.Execute("dbo.spIssue_DeleteById", parameters, commandType: CommandType.StoredProcedure);
             }
             OnIssueDeleted?.Invoke(this, issueModel);
+        }
+
+
+        //Blood Amount
+        public void UpdateBloodAmount(double amount, int bloodId)
+        {
+            using (IDbConnection connection = new SqlConnection(Connector.GetConnectionString(connectionStringName)))
+            {
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@Amount", amount);
+                parameters.Add("@Id", bloodId);
+                connection.Execute("dbo.spBloodCollection_UpdateAmountById", parameters, commandType: CommandType.StoredProcedure);
+            }
+            OnBloodAmountUpdated?.Invoke(this, new Dictionary<int, double> { { bloodId,amount} });
+        }
+
+        public void UpdateIssueBloodAmount(double amount, int issueId)
+        {
+            using (IDbConnection connection = new SqlConnection(Connector.GetConnectionString(connectionStringName)))
+            {
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@Amount", amount);
+                parameters.Add("@Id", issueId);
+                connection.Execute("dbo.spIssue_UpdateBloodAmountById", parameters, commandType: CommandType.StoredProcedure);
+            }
         }
     }
 }

@@ -50,7 +50,7 @@ DoctorInChargeId int references Doctors(Id) on delete set null);
 create table Issue(
 Id int identity primary key,
 RecipientId int references Recipients(Id) on delete set null,
-BloodId int references BloodCollection(Id) on delete set null,
+BloodId int references BloodCollection(Id) on delete cascade,
 BloodAmount float,
 Unit nvarchar(max),
 PricePaid money,

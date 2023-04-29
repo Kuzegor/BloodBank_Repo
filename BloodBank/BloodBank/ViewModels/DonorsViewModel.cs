@@ -302,12 +302,9 @@ namespace BloodBank.ViewModels
         private void SqlConnector_OnDonorDeleted(object? sender, DonorModel e)
         {
             EntitiesList.Remove(e);
-            if (EntitiesList.Count > 0)
-            {
-                Pages = PopulatePages(EntitiesList);
-                CurrentPage = Pages[0];
-                CurrentPageNumber = 1; 
-            }
+            Pages = PopulatePages(EntitiesList);
+            CurrentPage = Pages[0];
+            CurrentPageNumber = 1;
         }
         private void SqlConnector_OnDonorCreated(object? sender, DonorModel e)
         {

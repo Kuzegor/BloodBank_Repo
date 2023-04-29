@@ -65,7 +65,7 @@
 
         <Popup x:Name="ButtonsMenuPopup"
                HorizontalOffset="490"
-               VerticalOffset="-117"
+               VerticalOffset="-120"
                >
             <Popup.Style>
                 <Style TargetType="Popup">

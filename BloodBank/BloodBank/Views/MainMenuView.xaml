@@ -20,7 +20,7 @@
                 <RadioButton Content="🧾  Выдача"
                                  Command="{Binding ShowIssueCommand}"
                              Style="{StaticResource MenuRadioButtonStyle}"/>
-                <RadioButton Content="🅾️  Кровь"
+                <RadioButton Content="🅾️  Банк"
                                  Command="{Binding ShowBloodCollectionCommand}"
                              Style="{StaticResource MenuRadioButtonStyle}"/>
                 <RadioButton Content="💉  Доноры"
