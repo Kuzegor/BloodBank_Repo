@@ -323,8 +323,23 @@ namespace BloodBank.ViewModels
             Connector.SqlConnector.OnDoctorUpdated += SqlConnector_OnDoctorUpdated;
             Connector.SqlConnector.OnRecipientUpdated += SqlConnector_OnRecipientUpdated;
             Connector.SqlConnector.OnBloodAmountUpdated += SqlConnector_OnBloodAmountUpdated;
+            Connector.SqlConnector.OnBloodUpdated += SqlConnector_OnBloodUpdated;
         }
 
+        private void SqlConnector_OnBloodUpdated(object? sender, BloodModel e)
+        {
+            List<IssueModel> issues = EntitiesList.Where(x => x.Blood.Id == e.Id).ToList();
+            if (issues != null)
+            {
+                foreach (var item in issues)
+                {
+                    item.Blood = e;
+                }
+                Pages = PopulatePages(EntitiesList);
+                CurrentPage = Pages[0];
+                CurrentPageNumber = 1;
+            }
+        }
         private void SqlConnector_OnBloodAmountUpdated(object? sender, Dictionary<int, double> e)
         {
             List<IssueModel> issues = EntitiesList.Where(x => x.Blood.Id == e.Keys.FirstOrDefault()).ToList();
@@ -338,10 +353,13 @@ namespace BloodBank.ViewModels
         }
         private void SqlConnector_OnRecipientUpdated(object? sender, RecipientModel e)
         {
-            IssueModel issue = EntitiesList.Where(x => x.Recipient.Id == e.Id).FirstOrDefault();
-            if (issue != null)
+            List<IssueModel> issues = EntitiesList.Where(x => x.Recipient.Id == e.Id).ToList();
+            if (issues != null)
             {
-                issue.Recipient = e;
+                foreach (var item in issues)
+                {
+                    item.Recipient = e;
+                }
                 Pages = PopulatePages(EntitiesList);
                 CurrentPage = Pages[0];
                 CurrentPageNumber = 1;
@@ -349,10 +367,13 @@ namespace BloodBank.ViewModels
         }
         private void SqlConnector_OnDoctorUpdated(object? sender, DoctorModel e)
         {
-            IssueModel issue = EntitiesList.Where(x => x.DoctorInCharge.Id == e.Id).FirstOrDefault();
-            if (issue != null)
+            List<IssueModel> issues = EntitiesList.Where(x => x.DoctorInCharge.Id == e.Id).ToList();
+            if (issues != null)
             {
-                issue.DoctorInCharge = e;
+                foreach (var item in issues)
+                {
+                    item.DoctorInCharge = e;
+                }             
                 Pages = PopulatePages(EntitiesList);
                 CurrentPage = Pages[0];
                 CurrentPageNumber = 1;

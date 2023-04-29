@@ -32,6 +32,7 @@ namespace BloodBankLibrary
         public event EventHandler<RoleModel> OnRoleUpdated;
 
         public event EventHandler<BloodModel> OnBloodCreated;
+        public event EventHandler<BloodModel> OnBloodUpdated;
         public event EventHandler<BloodModel> OnBloodDeleted;
 
         public event EventHandler<IssueModel> OnIssueCreated;
@@ -334,6 +335,7 @@ namespace BloodBankLibrary
                 parameters.Add("@Id", bloodModel.Id);
                 connection.Execute("dbo.spBloodCollection_UpdateById", parameters, commandType: CommandType.StoredProcedure);
             }
+            OnBloodUpdated?.Invoke(this, bloodModel);
         }
 
         public void DeleteBlood(BloodModel bloodModel)

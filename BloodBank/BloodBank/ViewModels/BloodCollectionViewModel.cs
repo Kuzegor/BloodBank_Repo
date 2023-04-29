@@ -242,6 +242,7 @@ namespace BloodBank.ViewModels
             {
                 EntitiesList.Remove(EntitiesList.Where(x => x.Id == bloodId).FirstOrDefault());
             }
+            EntitiesList = EntitiesList.Where(x => x.Amount > 0).ToList();
             FilterBloodCollectionByRecipientsBloodGroup(bloodGroupId);
         }
 
@@ -431,10 +432,13 @@ namespace BloodBank.ViewModels
         }
         private void SqlConnector_OnDoctorUpdated(object? sender, DoctorModel e)
         {
-            BloodModel blood = EntitiesList.Where(x => x.DoctorInCharge.Id == e.Id).FirstOrDefault();
+            List<BloodModel> blood = EntitiesList.Where(x => x.DoctorInCharge.Id == e.Id).ToList();
             if (blood != null)
             {
-                blood.DoctorInCharge = e;
+                foreach (var item in blood)
+                {
+                    item.DoctorInCharge = e;
+                }                
                 Pages = PopulatePages(EntitiesList);
                 CurrentPage = Pages[0];
                 CurrentPageNumber = 1; 
@@ -442,10 +446,13 @@ namespace BloodBank.ViewModels
         }
         private void SqlConnector_OnDonorUpdated(object? sender, DonorModel e)
         {
-            BloodModel blood = EntitiesList.Where(x => x.Donor.Id == e.Id).FirstOrDefault();
+            List<BloodModel> blood = EntitiesList.Where(x => x.Donor.Id == e.Id).ToList();
             if (blood != null)
             {
-                blood.Donor = e;
+                foreach (var item in blood)
+                {
+                    item.Donor = e; 
+                }
                 Pages = PopulatePages(EntitiesList);
                 CurrentPage = Pages[0];
                 CurrentPageNumber = 1;
