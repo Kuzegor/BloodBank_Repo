@@ -46,9 +46,12 @@ namespace BloodBank.ViewModels
                 MaxBlood = default(Double);
                 selectedBlood = value;                
                 Issue.Blood = selectedBlood;
-                Issue.Unit = selectedBlood.Unit;
-                Issue.BloodGroupModel = selectedBlood.BloodGroupModel;
-                Issue.DonationTypeModel = selectedBlood.DonationTypeModel;
+                if (selectedBlood != null)
+                {
+                    Issue.Unit = selectedBlood.Unit;
+                    Issue.BloodGroupModel = selectedBlood.BloodGroupModel;
+                    Issue.DonationTypeModel = selectedBlood.DonationTypeModel;
+                }
                 OnPropertyChanged();
             }
         }

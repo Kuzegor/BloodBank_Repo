@@ -355,7 +355,7 @@ namespace BloodBank.ViewModels
             List<ObservableCollection<DoctorModel>> pages = new List<ObservableCollection<DoctorModel>>();
             List<DoctorModel> entities;
 
-            if (SelectedRole != null && SelectedRole != Roles.Where(x => x.Id == -1).FirstOrDefault())
+            if (SelectedRole != null && SelectedRole.Id != -1)
             {
                 List<DoctorModel> rolesNotNull = entitiesInput.Where(x => x.Role != null).ToList();
                 entities = rolesNotNull.Where(x => x.Role.Id == SelectedRole.Id).ToList();

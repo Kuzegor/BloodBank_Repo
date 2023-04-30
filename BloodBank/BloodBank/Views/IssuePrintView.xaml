@@ -47,7 +47,133 @@
                                        Margin="10"
                                        FontWeight="DemiBold"
                                        Foreground="Black"/>
-                         
+
+                            <StackPanel Orientation="Horizontal"
+                                            Margin="0,30,0,0">
+
+                                <TextBlock Text="Количество: " 
+                                           Margin="0,0,0,0"                                          
+                                           TextWrapping="Wrap"
+                                               FontSize="18"
+                                               Foreground="Black"
+                                                   />
+
+                                <TextBlock Text="{Binding Issue.BloodAmount}" 
+                                           Margin="0,0,0,0"                                          
+                                           TextWrapping="Wrap"
+                                               FontSize="18"
+                                                   FontWeight="SemiBold"
+                                               Foreground="Black"/>
+
+                                <TextBlock Text="{Binding Issue.Unit}" 
+                                           Margin="4,0,0,0"                                          
+                                           TextWrapping="Wrap"
+                                               FontSize="18"
+                                                   FontWeight="SemiBold"
+                                    Foreground="Black"/>
+
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+
+
+                                <TextBlock Text="Дата получения: " 
+                                                       Margin="0,0,0,0"                                          
+                                                       TextWrapping="Wrap"
+                                                           FontSize="18"
+                                                           MaxWidth="780"
+                                               Foreground="Black"
+                                                   />
+
+                                <TextBlock Text="{Binding Issue.Blood.DateOfCollection}"
+                                                       Margin="0,0,0,0" 
+                                                       MaxWidth="780" MaxHeight="65"
+                                                       TextWrapping="Wrap"
+                                                        FontSize="18"
+                                                        FontWeight="SemiBold"
+                                               Foreground="Black"/>
+
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+
+
+                                <TextBlock Text="Дата выдачи: " 
+                                                       Margin="0,0,0,0"                                          
+                                                       TextWrapping="Wrap"
+                                                           FontSize="18"
+                                                           MaxWidth="780"
+                                               Foreground="Black"
+                                                   />
+
+                                <TextBlock Text="{Binding Issue.DateOfIssue}"
+                                                       Margin="0,0,0,0" 
+                                                       MaxWidth="780" MaxHeight="65"
+                                                       TextWrapping="Wrap"
+                                                        FontSize="18"
+                                                        FontWeight="SemiBold"
+                                               Foreground="Black"/>
+
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+
+
+                                <TextBlock Text="Заплаченная сумма: " 
+                                                       Margin="0,0,0,0"                                          
+                                                       TextWrapping="Wrap"
+                                                           FontSize="18"
+                                                           MaxWidth="780"
+                                               Foreground="Black"
+                                                   />
+
+                                <TextBlock Text="{Binding Issue.PricePaid}"
+                                                       Margin="0,0,0,0" 
+                                                       MaxWidth="780" MaxHeight="65"
+                                                       TextWrapping="Wrap"
+                                                        FontSize="18"
+                                                        FontWeight="SemiBold"
+                                               Foreground="Black"/>
+
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+
+
+                                <TextBlock Text="Тип донации: " 
+                                                       Margin="0,0,0,0"                                          
+                                                       TextWrapping="Wrap"
+                                                           FontSize="18"
+                                                           MaxWidth="780"
+                                               Foreground="Black"
+                                                   />
+
+                                <TextBlock Text="{Binding Issue.DonationTypeModel.Name}"
+                                                       Margin="0,0,0,0" 
+                                                       MaxWidth="780" MaxHeight="65"
+                                                       TextWrapping="Wrap"
+                                                        FontSize="18"
+                                                        FontWeight="SemiBold"
+                                               Foreground="Black"/>
+
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+
+
+                                <TextBlock Text="Лечащий врач: " 
+                                                       Margin="0,0,0,0"                                          
+                                                       TextWrapping="Wrap"
+                                                           FontSize="18"
+                                                           MaxWidth="780"
+                                               Foreground="Black"
+                                                   />
+
+                                <TextBlock Text="{Binding Issue.DoctorInCharge.Name}"
+                                                       Margin="0,0,0,30" 
+                                                       MaxWidth="780" MaxHeight="65"
+                                                       TextWrapping="Wrap"
+                                                        FontSize="18"
+                                                        FontWeight="SemiBold"
+                                               Foreground="Black"/>
+
+                            </StackPanel>
+                            
                             <TextBlock Text="Реципиент:"
                                        FontSize="24"
                                        HorizontalAlignment="Left"
@@ -349,132 +475,7 @@
                                         </StackPanel>
                                     </StackPanel>
                                 </Border>
-
-                                <StackPanel Orientation="Horizontal"
-                                            Margin="0,30,0,0">
-
-                                    <TextBlock Text="Количество: " 
-                                           Margin="0,0,0,0"                                          
-                                           TextWrapping="Wrap"
-                                               FontSize="18"
-                                               Foreground="Black"
-                                                   />
-
-                                    <TextBlock Text="{Binding Issue.BloodAmount}" 
-                                           Margin="0,0,0,0"                                          
-                                           TextWrapping="Wrap"
-                                               FontSize="18"
-                                                   FontWeight="SemiBold"
-                                               Foreground="Black"/>
-
-                                    <TextBlock Text="{Binding Issue.Unit}" 
-                                           Margin="4,0,0,0"                                          
-                                           TextWrapping="Wrap"
-                                               FontSize="18"
-                                                   FontWeight="SemiBold"
-                                    Foreground="Black"/>
-
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-
-
-                                    <TextBlock Text="Дата получения: " 
-                                                       Margin="0,0,0,0"                                          
-                                                       TextWrapping="Wrap"
-                                                           FontSize="18"
-                                                           MaxWidth="780"
-                                               Foreground="Black"
-                                                   />
-
-                                    <TextBlock Text="{Binding Issue.Blood.DateOfCollection}"
-                                                       Margin="0,0,0,0" 
-                                                       MaxWidth="780" MaxHeight="65"
-                                                       TextWrapping="Wrap"
-                                                        FontSize="18"
-                                                        FontWeight="SemiBold"
-                                               Foreground="Black"/>
-
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-
-
-                                    <TextBlock Text="Дата выдачи: " 
-                                                       Margin="0,0,0,0"                                          
-                                                       TextWrapping="Wrap"
-                                                           FontSize="18"
-                                                           MaxWidth="780"
-                                               Foreground="Black"
-                                                   />
-
-                                    <TextBlock Text="{Binding Issue.DateOfIssue}"
-                                                       Margin="0,0,0,0" 
-                                                       MaxWidth="780" MaxHeight="65"
-                                                       TextWrapping="Wrap"
-                                                        FontSize="18"
-                                                        FontWeight="SemiBold"
-                                               Foreground="Black"/>
-
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-
-
-                                    <TextBlock Text="Заплаченная сумма: " 
-                                                       Margin="0,0,0,0"                                          
-                                                       TextWrapping="Wrap"
-                                                           FontSize="18"
-                                                           MaxWidth="780"
-                                               Foreground="Black"
-                                                   />
-
-                                    <TextBlock Text="{Binding Issue.PricePaid}"
-                                                       Margin="0,0,0,0" 
-                                                       MaxWidth="780" MaxHeight="65"
-                                                       TextWrapping="Wrap"
-                                                        FontSize="18"
-                                                        FontWeight="SemiBold"
-                                               Foreground="Black"/>
-
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-
-
-                                    <TextBlock Text="Тип донации: " 
-                                                       Margin="0,0,0,0"                                          
-                                                       TextWrapping="Wrap"
-                                                           FontSize="18"
-                                                           MaxWidth="780"
-                                               Foreground="Black"
-                                                   />
-
-                                    <TextBlock Text="{Binding Issue.DonationTypeModel.Name}"
-                                                       Margin="0,0,0,0" 
-                                                       MaxWidth="780" MaxHeight="65"
-                                                       TextWrapping="Wrap"
-                                                        FontSize="18"
-                                                        FontWeight="SemiBold"
-                                               Foreground="Black"/>
-
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-
-
-                                    <TextBlock Text="Лечащий врач: " 
-                                                       Margin="0,0,0,0"                                          
-                                                       TextWrapping="Wrap"
-                                                           FontSize="18"
-                                                           MaxWidth="780"
-                                               Foreground="Black"
-                                                   />
-
-                                    <TextBlock Text="{Binding Issue.DoctorInCharge.Name}"
-                                                       Margin="0,0,0,0" 
-                                                       MaxWidth="780" MaxHeight="65"
-                                                       TextWrapping="Wrap"
-                                                        FontSize="18"
-                                                        FontWeight="SemiBold"
-                                               Foreground="Black"/>
-
-                                </StackPanel>
+                                
                             </StackPanel>
 
                         </StackPanel>

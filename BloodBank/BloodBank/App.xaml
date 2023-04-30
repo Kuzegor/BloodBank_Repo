@@ -110,7 +110,7 @@
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type viewmodels:BloodCollectionDeleteViewModel}">
-                <views:DeleteView/>
+                <views:DeleteBloodView/>
             </DataTemplate>
 
 

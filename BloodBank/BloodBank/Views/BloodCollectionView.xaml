@@ -40,10 +40,20 @@
 
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
+                <RowDefinition MaxHeight="100"/>
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <ListBox Grid.Row="0"
+                 Background="Transparent"
+                 Foreground="{StaticResource MyDarkBrush}"
+                 Margin="0,0,0,0"
+                 ItemsSource="{Binding Statuses}"
+                 SelectedItem="{Binding SelectedStatus, Mode=TwoWay}"
+                 VerticalAlignment="Stretch"
+                 BorderBrush="{StaticResource MyDarkBrush}"
+                 BorderThickness=".5"/>
+            <ListBox Grid.Row="1"
                  Background="Transparent"
                  Foreground="{StaticResource MyDarkBrush}"
                  Margin="0,0,0,0"
@@ -52,7 +62,7 @@
                  VerticalAlignment="Stretch"
                  BorderBrush="{StaticResource MyDarkBrush}"
                  BorderThickness=".5"/>
-            <ListBox Grid.Row="1"
+            <ListBox Grid.Row="2"
                  Background="Transparent"
                  Foreground="{StaticResource MyDarkBrush}"
                  Margin="0,0,0,0"
@@ -60,7 +70,7 @@
                  SelectedItem="{Binding SelectedDonationType, Mode=TwoWay}"
                  VerticalAlignment="Stretch"
                  BorderBrush="{StaticResource MyDarkBrush}"
-                 BorderThickness=".5"/>
+                 BorderThickness=".5"/>            
         </Grid>
 
         <ListView Grid.Row="1" Grid.Column="1"

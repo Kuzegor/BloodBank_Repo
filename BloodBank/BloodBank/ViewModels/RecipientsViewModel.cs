@@ -413,7 +413,7 @@ namespace BloodBank.ViewModels
             List<ObservableCollection<RecipientModel>> pages = new List<ObservableCollection<RecipientModel>>();
             List<RecipientModel> entities;
 
-            if (SelectedBloodGroup != null && SelectedBloodGroup != BloodGroups.Where(x => x.Id == -1).FirstOrDefault())
+            if (SelectedBloodGroup != null && SelectedBloodGroup.Id != -1)
             {
                 entities = entitiesInput.Where(x => x.BloodGroup == SelectedBloodGroup.Id).ToList();
             }

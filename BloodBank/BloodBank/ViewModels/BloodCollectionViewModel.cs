@@ -15,6 +15,8 @@ namespace BloodBank.ViewModels
     {
         private List<BloodGroupModel> BloodGroupsList { get; set; }
         private List<DonationTypeModel> DonationTypesList { get; set; }
+        private List<BloodGroupModel> StatusesList { get; set; }
+
 
         private List<BloodModel> EntitiesList { get; set; }
 
@@ -36,6 +38,17 @@ namespace BloodBank.ViewModels
             set
             {
                 donationTypes = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private ObservableCollection<BloodGroupModel> statuses;
+        public ObservableCollection<BloodGroupModel> Statuses
+        {
+            get { return statuses; }
+            set
+            {
+                statuses = value;
                 OnPropertyChanged();
             }
         }
@@ -102,6 +115,23 @@ namespace BloodBank.ViewModels
             set
             {
                 selectedDonationType = value;
+                if (EntitiesList.Count > 0)
+                {
+                    Pages = PopulatePages(EntitiesList);
+                    CurrentPage = Pages[0];
+                    CurrentPageNumber = 1;
+                }
+                OnPropertyChanged();
+            }
+        }
+
+        private BloodGroupModel selectedStatus;
+        public BloodGroupModel SelectedStatus
+        {
+            get { return selectedStatus; }
+            set
+            {
+                selectedStatus = value;
                 if (EntitiesList.Count > 0)
                 {
                     Pages = PopulatePages(EntitiesList);
@@ -243,7 +273,12 @@ namespace BloodBank.ViewModels
                 EntitiesList.Remove(EntitiesList.Where(x => x.Id == bloodId).FirstOrDefault());
             }
             EntitiesList = EntitiesList.Where(x => x.Amount > 0).ToList();
+
             FilterBloodCollectionByRecipientsBloodGroup(bloodGroupId);
+
+            Statuses.RemoveAt(2);
+            SelectedStatus = Statuses[1];
+            Statuses.RemoveAt(0);
         }
 
         /// <summary>
@@ -328,16 +363,21 @@ namespace BloodBank.ViewModels
         {
             DonationTypesList = new List<DonationTypeModel>();
             BloodGroupsList = new List<BloodGroupModel>();
+            StatusesList = new List<BloodGroupModel>();
             EntitiesList = new List<BloodModel>();
             EntitiesList = Connector.SqlConnector.GetBloodCollection();
             BloodGroupsList = GetBloodGroups();
             DonationTypesList = GetDonationTypes();
+            StatusesList = GetStatuses();
 
             foreach (BloodModel item in EntitiesList)
             {
                 item.BloodGroupModel = BloodGroupsList.Where(x => x.Id == item.BloodGroup).FirstOrDefault();
                 item.DonationTypeModel = DonationTypesList.Where(x => x.Id == item.DonationType).FirstOrDefault();
             }
+
+            Statuses = new ObservableCollection<BloodGroupModel>(StatusesList);
+            SelectedStatus = Statuses[0];
 
             BloodGroups = new ObservableCollection<BloodGroupModel>(BloodGroupsList);
             BloodGroups.Insert(0, new BloodGroupModel { Id = -1, Name = "Все группы крови" });
@@ -477,6 +517,14 @@ namespace BloodBank.ViewModels
             }
         }
 
+        private List<BloodGroupModel> GetStatuses()
+        {
+            List<BloodGroupModel> output = new List<BloodGroupModel>();
+            output.Add(new BloodGroupModel { Id = -1, Name = "Все" });
+            output.Add(new BloodGroupModel { Id = 1, Name = "В наличии" });
+            output.Add(new BloodGroupModel { Id = 2, Name = "Выдано" });
+            return output;
+        }
         private List<DonationTypeModel> GetDonationTypes()
         {
             List<DonationTypeModel> output = new List<DonationTypeModel>();
@@ -508,7 +556,7 @@ namespace BloodBank.ViewModels
             List<ObservableCollection<BloodModel>> pages = new List<ObservableCollection<BloodModel>>();
             List<BloodModel> entities;
 
-            if (SelectedBloodGroup != null && SelectedBloodGroup != BloodGroups.Where(x => x.Id == -1).FirstOrDefault())
+            if (SelectedBloodGroup != null && SelectedBloodGroup.Id != -1)
             {
                 entities = entitiesInput.Where(x => x.BloodGroup == SelectedBloodGroup.Id).ToList();
             }
@@ -517,13 +565,21 @@ namespace BloodBank.ViewModels
                 entities = entitiesInput;
             }
 
-            if (SelectedDonationType!= null && SelectedDonationType != DonationTypes.Where(x => x.Id == -1).FirstOrDefault())
+            if (SelectedDonationType!= null && SelectedDonationType.Id != -1)
             {
                 entities = entities.Where(x => x.DonationType == SelectedDonationType.Id).ToList();
             }
-            else
+
+            if (SelectedStatus != null && SelectedStatus != Statuses.Where(x => x.Id == -1).FirstOrDefault())
             {
-                entities = entities;
+                if (SelectedStatus.Id == 1)
+                {
+                    entities = entities.Where(x => x.Amount > 0).ToList();
+                }
+                else if (SelectedStatus.Id == 2)
+                {
+                    entities = entities.Where(x => x.Amount <= 0).ToList();
+                }
             }
 
             int index = 0;
