@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BloodBank.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,20 @@ namespace BloodBank.Views
         public MainMenuView()
         {
             InitializeComponent();
+        }
+
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (MainWindowViewModel.Instance.CurrentUserIsAdmin)
+            {
+                DoctorsRadio.Visibility = Visibility.Visible;
+                RolesRadio.Visibility = Visibility.Visible;                
+            }
+            else
+            {
+                DoctorsRadio.Visibility = Visibility.Collapsed;
+                RolesRadio.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }

@@ -57,5 +57,7 @@ namespace BloodBank.ViewModels
             });
             DragMoveCommand = new DelegateCommand(x => Application.Current.MainWindow.DragMove());
         }
+
+        public bool CurrentUserIsAdmin { get; set; }
     }
 }

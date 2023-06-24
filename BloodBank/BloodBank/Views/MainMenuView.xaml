@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:BloodBank.Views"
              mc:Ignorable="d" 
              d:DesignHeight="420" d:DesignWidth="800">
-    <Grid>
+    <Grid Loaded="Grid_Loaded">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>
@@ -31,10 +31,12 @@
                              Style="{StaticResource MenuRadioButtonStyle}"/>
                 <RadioButton Content="‍⚕️  Врачи"
                                  Command="{Binding ShowDoctorsCommand}"
-                             Style="{StaticResource MenuRadioButtonStyle}"/>
+                             Style="{StaticResource MenuRadioButtonStyle}"
+                             x:Name="DoctorsRadio"/>
                 <RadioButton Content="‍💼  Роли"
                                  Command="{Binding ShowRolesCommand}"
-                             Style="{StaticResource MenuRadioButtonStyle}"/>
+                             Style="{StaticResource MenuRadioButtonStyle}"
+                             x:Name="RolesRadio"/>
                 <Button Style="{StaticResource MenuButtonStyle}"
                         Content="⬅️   Выйти"
                         Command="{Binding OpenAuthorizationCommand}"/>

@@ -52,7 +52,7 @@
                                             Margin="0,30,0,0">
 
                                 <TextBlock Text="Количество: " 
-                                           Margin="0,0,0,0"                                          
+                                           Margin="10,0,10,0"                                          
                                            TextWrapping="Wrap"
                                                FontSize="18"
                                                Foreground="Black"
@@ -77,7 +77,7 @@
 
 
                                 <TextBlock Text="Дата получения: " 
-                                                       Margin="0,0,0,0"                                          
+                                                       Margin="10,0,10,0"                                          
                                                        TextWrapping="Wrap"
                                                            FontSize="18"
                                                            MaxWidth="780"
@@ -97,7 +97,7 @@
 
 
                                 <TextBlock Text="Дата выдачи: " 
-                                                       Margin="0,0,0,0"                                          
+                                                       Margin="10,0,10,0"                                          
                                                        TextWrapping="Wrap"
                                                            FontSize="18"
                                                            MaxWidth="780"
@@ -117,7 +117,7 @@
 
 
                                 <TextBlock Text="Заплаченная сумма: " 
-                                                       Margin="0,0,0,0"                                          
+                                                       Margin="10,0,0,0"                                          
                                                        TextWrapping="Wrap"
                                                            FontSize="18"
                                                            MaxWidth="780"
@@ -137,7 +137,7 @@
 
 
                                 <TextBlock Text="Тип донации: " 
-                                                       Margin="0,0,0,0"                                          
+                                                       Margin="10,0,10,0"                                          
                                                        TextWrapping="Wrap"
                                                            FontSize="18"
                                                            MaxWidth="780"
@@ -157,7 +157,7 @@
 
 
                                 <TextBlock Text="Лечащий врач: " 
-                                                       Margin="0,0,0,0"                                          
+                                                       Margin="10,0,10,0"                                          
                                                        TextWrapping="Wrap"
                                                            FontSize="18"
                                                            MaxWidth="780"
@@ -186,13 +186,13 @@
                                     Width="auto"
                                     Background="White"
                                         HorizontalAlignment="Left"
-                                        Margin="10,0,0,0">
+                                        Margin="10,0,10,0">
                                     <Image Source="{Binding Issue.Recipient.PhotoUri}"
                                     Height="160"
                                     Width="auto"
                                     Stretch="Uniform"/>
                                 </Border>
-                                <Border Margin="10,0,0,10">
+                                <Border Margin="10,0,10,10">
                                     <StackPanel Orientation="Vertical"
                                                     VerticalAlignment="Center">
 
@@ -338,13 +338,13 @@
                                     Width="auto"
                                     Background="White"
                                         HorizontalAlignment="Left"
-                                        Margin="10,0,0,0">
+                                        Margin="10,0,10,0">
                                     <Image x:Name="ImagePicture" Source="{Binding Issue.Blood.Donor.PhotoUri}"
                                     Height="160"
                                     Width="auto"
                                     Stretch="Uniform"/>
                                 </Border>
-                                <Border Margin="10,0,0,10">
+                                <Border Margin="10,0,10,10">
                                     <StackPanel Orientation="Vertical"
                                                     VerticalAlignment="Center">
 
@@ -475,7 +475,32 @@
                                         </StackPanel>
                                     </StackPanel>
                                 </Border>
-                                
+
+                                <Border BorderBrush="Black"
+                                        BorderThickness="1"
+                                        VerticalAlignment="Bottom"
+                                        Margin="570,90,70,0"
+                                        Grid.Column="1">
+                                </Border>
+
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="МП"
+                                                FontSize="14"
+                                           VerticalAlignment="Bottom"
+                                               Margin="450,0,0,0"
+                                               Foreground="Black">
+                                        
+                                    </TextBlock>
+                                    <TextBlock Text="Подпись врача"
+                                           FontSize="14"
+                                           VerticalAlignment="Bottom"
+                                           Margin="130,0,70,0"
+                                           HorizontalAlignment="Center"
+                                           Grid.Column="1"
+                                               Foreground="Black">
+                                    </TextBlock>
+                                </StackPanel>
+                              
                             </StackPanel>
 
                         </StackPanel>
