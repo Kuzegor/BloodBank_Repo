@@ -7,7 +7,7 @@
 
 •	Вывод данных на печать
 
-•	Загрузка изображени
+•	Загрузка изображений
 
 ![Снимок экрана (39)](https://github.com/user-attachments/assets/d9ae2839-442d-4ab7-bb17-8b6400d9446f)
 ![Снимок экрана (40)](https://github.com/user-attachments/assets/855239da-1b11-4738-8047-1ed4ff492a05)
